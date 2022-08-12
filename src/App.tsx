@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { QueryKey, useQuery } from "@tanstack/react-query";
+import Drawer from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
+import Grid from "@mui/material/Grid";
+import AddShoppingCartIcon from "@mui/material/Icon";
+import Badge from "@mui/material";
+// styles
 
-function App() {
+import { Wrapper } from "./App.styles";
+
+import Item from "./components/Item/Item";
+
+// types
+export type CartItemType = {
+  id: number;
+  category: string;
+  image: string;
+  description: string;
+  price: number;
+  title: string;
+  // amount: number;
+};
+
+const getProducts = async (): Promise<CartItemType[]> => {
+  return await await fetch("https://fakestoreapi.com/products").then((res) =>
+    res.json()
+  ); // double await because converting json take times
+};
+
+const App = () => {
+  const { data, isLoading, error } = useQuery<CartItemType[]>(
+    ["products"],
+    getProducts
+  );
+  console.log("data", data);
+
+  const getTotalItems = () => null;
+  const handleAddToCart = (clickedItem: CartItemType) => null;
+  const handleRemoveFromCart = () => null;
+
+  if (isLoading) return <LinearProgress />;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Wrapper>
+        <Grid container spacing={3}>
+          {data?.map((item) => (
+            <Grid item key={item.id} xs={12} sm={4}>
+              <Item item={item} handleAddToCart={handleAddToCart} />
+            </Grid>
+          ))}
+        </Grid>
+      </Wrapper>
     </div>
   );
-}
+};
 
 export default App;
