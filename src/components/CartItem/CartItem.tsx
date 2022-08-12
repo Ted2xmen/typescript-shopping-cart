@@ -3,7 +3,14 @@ import { Button } from "@mui/material";
 
 import { CartItemType } from "../../App";
 
-const CartItem: React.FC = () => {
+type Props = {
+  item: CartItemType;
+  removeFromCart: (id: number) => void;
+  addToCart: (clickedItem: CartItemType) => void;
+};
+
+
+const CartItem: React.FC<Props> = () => {
   return <Wrapper>CartItem</Wrapper>;
 };
 

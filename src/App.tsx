@@ -56,7 +56,7 @@ const App = () => {
           onClose={() => setCartOpen(false)}
         >
           <Cart
-            CartItems={cartItems}
+            cartItems={cartItems}
             addToCart={handleAddToCart}
             removeFromCart={handleRemoveFromCart}
           />
